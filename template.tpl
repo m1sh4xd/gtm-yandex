@@ -79,7 +79,7 @@ if (!verificationId) {
   return;
 }
 
-if (!queryPermission('access_globals', 'write', GLOBAL_NAMESPACE) ||
+if (!queryPermission('access_globals', 'readwrite', GLOBAL_NAMESPACE) ||
     !queryPermission('inject_script', HELPER_SCRIPT_URL)) {
   data.gtmOnFailure();
   return;
@@ -138,7 +138,7 @@ ___WEB_PERMISSIONS___
                   },
                   {
                     "type": 8,
-                    "boolean": false
+                    "boolean": true
                   },
                   {
                     "type": 8,
