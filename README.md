@@ -6,29 +6,65 @@ This template does one thing only: it adds the Yandex Webmaster verification met
 <meta name="yandex-verification" content="YOUR_ID">
 ```
 
+<img src="img/gtm-template-setup.png" alt="Google Tag Manager setup for the Yandex Webmaster template" width="360">
+
 ## What is inside
 
 - One input field: `Webmaster verification ID`.
 - One helper script that creates or updates `meta[name="yandex-verification"]` in `head`.
 - Duplicate protection: if the meta tag already exists in `head`, the script reuses it.
 
-## GTM setup
+## Install from GTM Gallery
 
-1. Import [template.tpl](/Users/m1sh4xd/webmaster-gtm-template/template.tpl) into Google Tag Manager.
-2. Create a tag from this template.
-3. Paste the value from the `content` attribute that Yandex Webmaster gives you.
-4. Set trigger to `Initialization - All Pages`.
-5. Set `Advanced Settings -> Tag firing options` to `Once per page`.
-6. Publish the container.
+The template is already published in the Google Tag Manager Community Template Gallery, so this is the default installation path.
+
+1. Open your GTM container.
+2. Go to `Templates`.
+3. In `Tag Templates`, open the Gallery and find `Official Yandex Webmaster`.
+4. Add the template to the container.
+5. Create a new tag from this template.
+6. Paste the value from the `content` attribute that Yandex Webmaster gives you.
+7. Set trigger to `Initialization - All Pages`.
+8. Set `Advanced Settings -> Tag firing options` to `Once per page`.
+9. Publish the container.
+
+## Manual Setup
+
+Use manual setup only if you need to install the template from the repository version directly.
+
+1. Download or copy [`template.tpl`](template.tpl) from this repository.
+2. In GTM, go to `Templates`, create a new tag template, and import [`template.tpl`](template.tpl).
+3. Create a tag from this template.
+4. Paste the value from the `content` attribute that Yandex Webmaster gives you.
+5. Set trigger to `Initialization - All Pages`.
+6. Set `Advanced Settings -> Tag firing options` to `Once per page`.
+7. Publish the container.
+
+The repository version uses the public helper script hosted at:
+
+`https://cdn.jsdelivr.net/gh/m1sh4xd/gtm-yandex@467fdc0c3ab3124a40ddf229fc8cd20392c71938/webmaster-verification.js`
 
 ## Verification after publish
 
 1. Open the site homepage and confirm that the page source contains `<meta name="yandex-verification" ...>` inside `head`.
 2. In Yandex Webmaster, click `Verify`.
 3. If verification fails, check that the same token is used and that the tag is present on the canonical homepage URL.
+4. If needed, verify in browser DevTools:
+   ```js
+   document.head.querySelector('meta[name="yandex-verification"]')?.outerHTML
+   ```
 
-## Release note
+## Repository Files
 
-The template uses `injectScript`, because GTM custom templates do not provide a direct API for writing into `document.head`. The helper file is [webmaster-verification.js](/Users/m1sh4xd/webmaster-gtm-template/webmaster-verification.js).
+- Template source: [`template.tpl`](template.tpl)
+- Helper source: [`webmaster-verification.js`](webmaster-verification.js)
+- Screenshot used in this README: [`img/gtm-template-setup.png`](img/gtm-template-setup.png)
+- Template icon: [`img/webmaster-favicon.png`](img/webmaster-favicon.png)
 
-Before publishing the template for production use, host the helper script at a pinned versioned URL instead of `@main` and update the URL in [template.tpl](/Users/m1sh4xd/webmaster-gtm-template/template.tpl).
+## Implementation Notes
+
+The template uses `injectScript`, because GTM custom templates do not provide a direct API for writing into `document.head`.
+
+- The GTM Gallery version is the recommended installation path.
+- The repository version is useful for manual import, review, or local changes before publishing a new gallery release.
+- The helper URL in [`template.tpl`](template.tpl) must stay aligned with the `inject_script` permission and the built-in tests.
